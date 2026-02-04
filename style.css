@@ -78,9 +78,29 @@ header {
     display: inline;
 }
 .subtitle { font-size: 1.2rem; font-style: italic; margin-left: 350px; background: var(--retro-blue); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline; }
-.social-icons { display: flex; gap: 12px; margin-top: 25px; }
-.icon-box { width: 35px; height: 35px; background: var(--neon-gradient); border-radius: 4px; }
 
+.social-icons {
+    display: flex;
+    gap: 20px;
+    margin-top: 25px;
+}
+
+/* This targets the Font Awesome icons */
+.icon-link i {
+    font-size: 2rem; /* Adjust size here */
+    color: #fff; /* This keeps the lines of the icons crisp and white */
+    transition: all 0.3s ease;
+}
+
+.icon-link:hover i {
+    transform: translateY(-5px); /* Little bounce effect */
+    color: #00d2ff; /* Glows blue on hover */
+    text-shadow: 0 0 10px #00d2ff;
+}
+
+.icon-link {
+    text-decoration: none;
+}
 
 
 .resume-side { display: flex; flex-direction: column; align-items: center;}
