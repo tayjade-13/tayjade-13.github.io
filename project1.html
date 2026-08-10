@@ -1,0 +1,305 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Collection Game | Projects</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Overlay layout styling specific to project view */
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        /* Fixed Fixed/Sticky Navigation Arrows */
+        .nav-arrow {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #fff;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .nav-arrow.left {
+            left: 30px;
+        }
+
+        .nav-arrow.right {
+            right: 30px;
+        }
+
+        .nav-arrow .arrow-head {
+            width: 0;
+            height: 0;
+            border-top: 35px solid transparent;
+            border-bottom: 35px solid transparent;
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+
+        .nav-arrow.left .arrow-head {
+            border-right: 55px solid #d9d9d9;
+            filter: drop-shadow(-4px 0 10px rgba(255, 0, 204, 0.6));
+        }
+
+        .nav-arrow.right .arrow-head {
+            border-left: 55px solid #d9d9d9;
+            filter: drop-shadow(4px 0 10px rgba(51, 51, 255, 0.6));
+        }
+
+        .nav-arrow:hover .arrow-head {
+            transform: scale(1.15);
+        }
+
+        .nav-arrow.left:hover .arrow-head {
+            border-right-color: #ff00cc;
+        }
+
+        .nav-arrow.right:hover .arrow-head {
+            border-left-color: #00d2ff;
+        }
+
+        .exit-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 0, 204, 0.8);
+        }
+
+        /* Scrollable Project Container Card */
+        .project-modal-container {
+            width: 100%;
+            max-width: 900px;
+            background: linear-gradient(135deg, rgba(123, 76, 246, 0.85), rgba(40, 15, 80, 0.95));
+            border: 3px solid rgba(255, 0, 204, 0.5);
+            border-radius: 28px;
+            padding: 40px;
+            box-shadow: 0 0 35px rgba(123, 76, 246, 0.4), 0 15px 35px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            margin: 20px auto;
+            color: #ffffff;
+            box-sizing: border-box;
+        }
+
+        /* Header Section: Title Badge & Tech Stack */
+        .project-header-row {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .title-badge {
+            background-color: #d9d9d9;
+            color: #0f0524;
+            font-weight: 800;
+            font-size: 1.25rem;
+            padding: 12px 28px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .tech-stack-text {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: #00d2ff;
+        }
+
+        /* Content Text Box */
+        .project-text-box {
+            background-color: rgba(217, 217, 217, 0.9);
+            color: #111;
+            padding: 25px 30px;
+            border-radius: 18px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .project-text-box h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #000;
+        }
+
+        .project-text-box ul {
+            margin-left: 25px;
+            margin-top: 8px;
+            margin-bottom: 12px;
+        }
+
+        .project-text-box li {
+            margin-bottom: 6px;
+        }
+
+        .section-label {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 18px;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+
+        .github-link {
+            color: #00d2ff;
+            text-decoration: underline;
+            word-break: break-all;
+            font-size: 1.05rem;
+            transition: color 0.2s ease;
+        }
+
+        .github-link:hover {
+            color: #ff00cc;
+        }
+
+        .context-paragraph {
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* Media Showcase Area */
+        .main-media-wrapper {
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            background-color: #000;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .main-media-wrapper video,
+        .main-media-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            max-height: 500px;
+            object-fit: contain;
+        }
+
+        /* Secondary Thumbnail Gallery */
+        .thumbnail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .thumbnail-item {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background-color: #000;
+        }
+
+        .thumbnail-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 900px) {
+            .nav-arrow {
+                position: static;
+                transform: none;
+                flex-direction: row;
+                gap: 10px;
+            }
+            .nav-bar-mobile {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fixed Left Arrow / Exit -->
+    <a href="index.html#projects" class="nav-arrow left" title="Return to Projects">
+        <span class="exit-text">Exit</span>
+        <div class="arrow-head"></div>
+    </a>
+
+    <!-- Fixed Right Arrow / Next Project -->
+    <a href="project2.html" class="nav-arrow right" title="Next Project">
+        <div class="arrow-head"></div>
+    </a>
+
+    <!-- Main Scrollable Project Container Card -->
+    <main class="project-modal-container">
+        
+        <!-- Header: Title Badge & Tech Stack -->
+        <div class="project-header-row">
+            <div class="title-badge">Retro Collection Game</div>
+            <div class="tech-stack-text">Python and Pygame, Custom Pixel Art</div>
+        </div>
+
+        <!-- Description & Features Text Block -->
+        <div class="project-text-box">
+            <h4>Description:</h4>
+            <p>A 2D top-down pixel style collection game where the player is the Grinch with the objective of stealing presents from homes around the village without detection from children.</p>
+            
+            <h4 style="margin-top: 15px;">Features I Contributed:</h4>
+            <ul>
+                <li>AI enemies with sight cones that trigger reactions</li>
+                <li>Collision detection with walls, game objects, and enemies</li>
+                <li>Designed and developed different levels using data structures to manage map generation, object spawning, collision barriers, and asset loading</li>
+                <li>Debug mode for playtesting</li>
+            </ul>
+        </div>
+
+        <!-- GitHub Repository Link -->
+        <div class="section-label">GitHub Link:</div>
+        <p style="margin-bottom: 20px;">
+            <a href="https://github.com/mabaddomm/Computing-Club-GAME-JAMMMMMMMMMM" target="_blank" class="github-link">
+                mabaddomm/Computing-Club-GAME-JAMMMMMMMMMM
+            </a>
+        </p>
+
+        <!-- Context Description -->
+        <div class="section-label">Context:</div>
+        <p class="context-paragraph">
+            This game was designed and built in one week for a club game jam using an iterative process model. OpenAI was used by my team and I for combining code files quickly, brainstorming bug solutions, and as a tool to overcome the learning curve that was using Pygame utilities for the first time.
+        </p>
+
+        <!-- Main Video / Large Preview Showcase -->
+        <div class="main-media-wrapper">
+            <!-- Playable Video element -->
+            <video controls poster="cafe_gameplay_preview.png">
+                <source src="gameplay_demo.mp4" type="video/mp4">
+                Your browser does not support video playback.
+            </video>
+        </div>
+
+        <!-- Secondary Screenshot Thumbnails -->
+        <div class="thumbnail-grid">
+            <div class="thumbnail-item">
+                <img src="screenshot1.png" alt="Gameplay screenshot 1">
+            </div>
+            <div class="thumbnail-item">
+                <img src="screenshot2.png" alt="Gameplay screenshot 2">
+            </div>
+        </div>
+
+    </main>
+
+</body>
+</html>
